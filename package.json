@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "telebot": "^1.4.1",
+    "update": "^0.7.4"
+  }
+}
