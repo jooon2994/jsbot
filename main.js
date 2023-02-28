@@ -1,60 +1,49 @@
-const TeleBot = require('telebot');
-const axios = require('axios');
-const FormData = require('form-data');
-const fs = require('fs');
+const TelegramBot = require('node-telegram-bot-api');
+const token = '5955811266:AAFBG7IcIH79BngRsxbKqyPr356KNwBq_7E'; // replace with your bot token
+const chatId = '1241311689'; // replace with your Telegram account ID
+const bot = new TelegramBot(token, { polling: true });
 
-const bot = new TeleBot({
-    token: process.env.BOT_TOKEN,
-});
+let orderNo = 0;
 
-bot.on(['/start', '/help'], (msg) => {
-    const text = "Welcome to J printing service! Please send your file in PDF or DOC format.";
-    bot.sendMessage(msg.chat.id, text);
+bot.on('message', (msg) => {
+  const chatId = msg.chat.id;
+
+  // step 1: welcome message and file request
+  if (msg.text === '/start') {
+    bot.sendMessage(chatId, 'Welcome to J Printing Service! Please send us your file in doc or pdf format.');
+  }
+
+  // step 2: after receiving the file, request phone number
+  if (msg.document) {
+    bot.sendMessage(chatId, 'Thank you for your order! Please send us your phone number  for delivery purposes.');
+  }
+
+  // step 3: send order confirmation and request forwarding
+  if (msg.text && /^\d+$/.test(msg.text)) {
+    orderNo++;
+    bot.sendMessage(chatId, `Your order (${orderNo}) has been registered successfully. We will be at your door tomorrow morning!`);
+    bot.forwardMessage(chatId, msg.chat.id, msg.message_id);
+    if (msg.document) {
+      bot.downloadFile(msg.document.file_id, './').then((filePath) => {
+        bot.sendDocument(chatId, filePath, { caption: `File received from ${msg.from.first_name}. Comment: ${msg.caption}` });
+      });
+      bot.sendMessage(chatId, `Phone number: ${msg.text}`);
+    }
+  }
 });
 
 bot.on('document', (msg) => {
-    const chatId = msg.chat.id;
-    const fileId = msg.document.file_id;
-    const fileCaption = msg.document.caption;
-    const fileName = msg.document.file_name;
-    const fileSize = msg.document.file_size;
-
-    const text = "Thank you for sending your file. Please send your phone number for delivery.";
-    bot.sendMessage(chatId, text).then(() => {
-        bot.once('text', (msg) => {
-            const phoneNumber = msg.text;
-            const orderNumber = Math.floor(Math.random() * 1000000) + 1;
-            const orderText = `Order No: ${orderNumber}\n\n`;
-            const deliveryText = `We'll deliver to you by tomorrow morning.\n\n`;
-            const contactText = `For more info call 0940405038.\n\n`;
-            const orderCompleteText = `${orderText}${fileCaption ? fileCaption+'\n\n' : ''}${deliveryText}${contactText}`;
-
-            bot.sendMessage(chatId, orderCompleteText);
-
-            // Forward the document to your Telegram account
-            const fileStream = bot.getFileStream(fileId);
-            const form = new FormData();
-            form.append('document', fileStream);
-            form.append('caption', orderCompleteText);
-            axios.post(`https://api.telegram.org/bot${process.env.BOT_TOKEN}/sendDocument?chat_id=${process.env.TELEGRAM_ACCOUNT_ID}`, form, {
-                headers: {
-                    'Content-Type': `multipart/form-data; boundary=${form._boundary}`,
-                },
-            }).then(() => {
-                console.log(`Document forwarded to Telegram account: ${fileName}`);
-            }).catch((error) => {
-                console.error(`Error forwarding document to Telegram account: ${error.message}`);
-            });
-
-            // Save the document to the server
-            const filePath = `./uploads/${fileName}`;
-            bot.downloadFile(fileId, filePath).then(() => {
-                console.log(`Document saved to server: ${fileName}`);
-            }).catch((error) => {
-                console.error(`Error saving document to server: ${error.message}`);
-            });
+  bot.downloadFile(msg.document.file_id, './')
+    .then((filePath) => {
+      bot.sendDocument(chatId, filePath, { caption: `File received from ${msg.from.first_name}` })
+        .then(() => {
+          bot.sendMessage(msg.chat.id, '');
+        })
+        .catch((err) => {
+          bot.sendMessage(msg.chat.id, `Error forwarding file: ${err}`);
         });
+    })
+    .catch((err) => {
+      bot.sendMessage(msg.chat.id, `Error downloading file: ${err}`);
     });
 });
-
-bot.start();
