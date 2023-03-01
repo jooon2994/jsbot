@@ -54,7 +54,7 @@ bot.on('message', (msg) => {
   }
 
   if (msg.text && (msg.text.toLowerCase() === 'skip' || msg.text.toLowerCase() === 'order again')) {
-    bot.sendMessage(chatId, `Your order has been confirmed. We will send the file and your phone number to our printing service.`);
+    bot.sendMessage(chatId, 'Your order has been confirmed. your paper will be delivered to your door by tomorrow morning. if your paper does not arrive or to make sure of your order, \n 👉🏿 +251940405038 or +251799445038. ');
     if (msg.document) {
       bot.downloadFile(msg.document.file_id, './').then((filePath) => {
         bot.sendDocument(chatId, filePath, { caption: `File received from ${msg.from.first_name}. Comment: ${msg.text}` });
@@ -76,5 +76,5 @@ bot.on('document', (msg) => {
         .catch((err) => {
           bot.sendMessage(msg.chat.id, `Error forwarding file: ${err}`);
         });
-    bot.sendMessage(msg.chat.id, 'File received successfully! We are pleased to inform you that your paper will be delivered to your door by tomorrow morning. In the unlikely event that your paper does not arrive, please do not hesitate to contact us at +251940405038 or +251799445038. Thank you for choosing our service.');
+    bot.sendMessage(msg.chat.id, 'file received successefully');
     })});
