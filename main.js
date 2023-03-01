@@ -50,7 +50,7 @@ bot.on('message', (msg) => {
     bot.forwardMessage(1241311689, msg.chat.id, msg.message_id);
 
     // Send the "File received successfully" message only once
-    bot.sendMessage(chatId, 'File received successfully! We are pleased to inform you that your paper will be delivered to your door by tomorrow morning. In the unlikely event that your paper does not arrive, please do not hesitate to contact us at +251940405038 or +251799445038. Thank you for choosing our service.');
+    bot.sendMessage(chatId, 'File received successfully!');
   }
 
   if (msg.text && (msg.text.toLowerCase() === 'skip' || msg.text.toLowerCase() === 'order again')) {
