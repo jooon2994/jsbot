@@ -74,5 +74,12 @@ bot.on('document', (msg) => {
         .catch((err) => {
           bot.sendMessage(msg.chat.id, `Error forwarding file: ${err}`);
         });
-    bot.sendMessage(msg.chat.id, 'file received successefully');
+    bot.sendMessage(msg.chat.id, '');
+    reply_markup: {
+        keyboard: [[{
+          text: 'start'
+        }]],
+        resize_keyboard: true,
+        one_time_keyboard: true
+      }
     })});
