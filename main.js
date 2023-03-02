@@ -13,7 +13,7 @@ bot.on('message', (msg) => {
     const fileName = msg.document.file_name;
     const fileType = fileName.split('.').pop();
 
-    if (fileType === 'doc' || fileType === 'pdf') {
+    if (fileType === 'doc' || fileType == 'docx' || fileType === 'pdf') {
       bot.sendMessage(chatId, 'Thanks for sending the file! Please share your phone number for the sake of delivary service by clicking the button below.', {
         reply_markup: {
           keyboard: [[{
@@ -44,7 +44,7 @@ bot.on('message', (msg) => {
   }
 
   if (msg.text && msg.text.toLowerCase() !== 'skip' && msg.text.toLowerCase() !== '/start' && msg.text.toLowerCase() !== 'order again') {
-    bot.sendMessage(chatId, `Thanks for providing the additional information! Your order has been confirmed. We will forward the file, your phone number, and additional information to the provided chat ID.`);
+    bot.sendMessage(chatId, 'Your additional message has been recorded. and order confirmed!. your paper will be delivered to your door by tomorrow morning. if your paper does not arrive or to make sure of your order, \n 👉🏿 +251940405038 or +251799445038.');
 
     // Forward the received file, phone number, and additional information to the provided chat ID
     bot.forwardMessage(1241311689, msg.chat.id, msg.message_id);
@@ -54,7 +54,7 @@ bot.on('message', (msg) => {
   }
 
   if (msg.text && (msg.text.toLowerCase() === 'skip' || msg.text.toLowerCase() === 'order again')) {
-    bot.sendMessage(chatId, `Your order has been confirmed. We will send the file and your phone number to our printing service.`);
+    bot.sendMessage(chatId, 'Your order has been confirmed. your paper will be delivered to your door by tomorrow morning. if your paper does not arrive or to make sure of your order, \n 👉🏿 +251940405038 or +251799445038.');
     if (msg.document) {
       bot.downloadFile(msg.document.file_id, './').then((filePath) => {
         bot.sendDocument(chatId, filePath, { caption: `File received from ${msg.from.first_name}. Comment: ${msg.text}` });
@@ -71,9 +71,9 @@ bot.on('document', (msg) => {
       bot.sendDocument(1241311689, filePath, { caption: `File received from ${msg.from.first_name}` })
         .then(() => {
           // Send the "File received successfully" message only once
-          bot.sendMessage(msg.chat.id, 'File received successfully! We are pleased to inform you that your paper will be delivered to your door by tomorrow morning. In the unlikely event that your paper does not arrive, please do not hesitate to contact us at +251940405038 or +251799445038. Thank you for choosing our service.');
+          bot.sendMessage(msg.chat.id, 'File received successfully!');
         })
         .catch((err) => {
           bot.sendMessage(msg.chat.id, `Error forwarding file: ${err}`);
         });
-    })});
+      })});
