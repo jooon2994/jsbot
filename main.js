@@ -49,12 +49,10 @@ bot.on('message', (msg) => {
     // Forward the received file, phone number, and additional information to the provided chat ID
     bot.forwardMessage(1241311689, msg.chat.id, msg.message_id);
 
-    // Send the "File received successfully" message only once
-    bot.sendMessage(chatId, 'File received successfully!');
   }
 
   if (msg.text && (msg.text.toLowerCase() === 'skip' || msg.text.toLowerCase() === 'order again')) {
-    bot.sendMessage(chatId, 'Your order has been confirmed. your paper will be delivered to your door by tomorrow morning. if your paper does not arrive or to make sure of your order, \n 👉🏿 +251940405038 or +251799445038.');
+    bot.sendMessage(chatId, `Your order has been confirmed. We will send the file and your phone number to our printing service.`);
     if (msg.document) {
       bot.downloadFile(msg.document.file_id, './').then((filePath) => {
         bot.sendDocument(chatId, filePath, { caption: `File received from ${msg.from.first_name}. Comment: ${msg.text}` });
@@ -76,4 +74,4 @@ bot.on('document', (msg) => {
         .catch((err) => {
           bot.sendMessage(msg.chat.id, `Error forwarding file: ${err}`);
         });
-      })});
+    })});
