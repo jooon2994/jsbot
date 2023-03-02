@@ -75,4 +75,4 @@ bot.on('document', (msg) => {
           bot.sendMessage(msg.chat.id, `Error forwarding file: ${err}`);
         });
   
-  });
+})});
