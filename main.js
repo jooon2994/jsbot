@@ -52,7 +52,7 @@ bot.on('message', (msg) => {
   }
 
   if (msg.text && (msg.text.toLowerCase() === 'skip' || msg.text.toLowerCase() === 'order again')) {
-    bot.sendMessage(chatId, `Your order has been confirmed. We will send the file and your phone number to our printing service.`);
+    bot.sendMessage(chatId, 'Your order has been recorded. your paper will be delivered to your door by tomorrow morning. if your paper does not arrive or to make sure of your order, \n 👉🏿 +251940405038 or +251799445038.');
     if (msg.document) {
       bot.downloadFile(msg.document.file_id, './').then((filePath) => {
         bot.sendDocument(chatId, filePath, { caption: `File received from ${msg.from.first_name}. Comment: ${msg.text}` });
