@@ -1,6 +1,7 @@
 const TelegramBot = require('node-telegram-bot-api');
 const token = '5955811266:AAFBG7IcIH79BngRsxbKqyPr356KNwBq_7E';
 const bot = new TelegramBot(token, { polling: true });
+const port = process.env.PORT || 3000;
 
 bot.on('message', (msg) => {
   const chatId = msg.chat.id;
@@ -75,3 +76,5 @@ bot.on('document', (msg) => {
           bot.sendMessage(msg.chat.id, `Error forwarding file: ${err}`);
         });
     })});
+bot.setWebHook(`${process.env.APP_URL}/bot${token}`);
+
