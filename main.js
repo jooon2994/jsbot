@@ -84,7 +84,7 @@ bot.downloadFile(msg.document.file_id, './')
       .then(() => {
         // Send the "File received successfully" message if they only send a file in pdf and doc format 
         if (msg.document.file_name.split('.').pop() === 'pdf' || msg.document.file_name.split('.').pop() === 'docx') {
-          bot.sendMessage(1241311689, 'File received successfully!');
+          bot.sendMessage(1241311689, '');
         } 
       })
       .catch((err) => {
