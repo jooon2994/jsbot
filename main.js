@@ -7,7 +7,7 @@ bot.on('message', (msg) => {
   const chatId = msg.chat.id;
 
   if (msg.text === '/start' || msg.text === 'Order Again') {
-    bot.sendMessage(chatId, `Welcome to J Printing Service Bot! Please send a file in doc or pdf format.`);
+    bot.sendMessage(chatId, `Welcome to J Printing Service Bot! Please send a file in doc or pdf(recommended) format.`);
   }
 
   if (msg.document) {
