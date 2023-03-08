@@ -31,7 +31,7 @@ bot.on('message', (msg) => {
   }
 
   if (msg.contact) {
-    bot.sendMessage(chatId, `Thanks for sharing your phone number! Please provide additional information about your print job (color and type of paper). If you don't want to provide this information, click the "Skip" button.`, {
+    bot.sendMessage(chatId, 'Thanks for sharing your phone number! Please provide additional information about your print job (color and type of paper). If you don\'t want to provide this information, click the "Skip" button.(አማርኛም መጠቀም ይችላሉ)', {
       reply_markup: {
         keyboard: [[{
           text: 'Skip'
