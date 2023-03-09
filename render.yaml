@@ -1,6 +1,6 @@
 services:
-- name: my_bot
+- name: mymy
   github:
     branch: main
-  buildCommand: yarn
+  buildCommand: npm install
   startCommand: node main.js
