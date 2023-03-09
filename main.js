@@ -91,4 +91,8 @@ bot.downloadFile(msg.document.file_id, './')
         bot.sendMessage(msg.chat.id, `Error forwarding file: ${err}`);
       });
 
+<<<<<<< HEAD
 })});
+=======
+})});
+>>>>>>> 5842793c9e6b672ca5deb624457d78919486630e
