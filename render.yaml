@@ -1,6 +1,0 @@
-services:
-- name: mymy
-  github:
-    branch: main
-  buildCommand: npm install
-  startCommand: node main.js
