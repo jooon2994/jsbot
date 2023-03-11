@@ -1,0 +1,5 @@
+cron:
+- description: "Deploy bot every 10 minutes"
+  url: "/deploy-bot"
+  schedule: "*/10 * * * *"
+
